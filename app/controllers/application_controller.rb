@@ -1,6 +1,7 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
 
+  helper_method :logged_in?, :current_user
   #This logs the user in, giving them a temporary 
   #session and encrypting their user.id as the session[:user_id]
   def log_in(user)
@@ -9,7 +10,7 @@ class ApplicationController < ActionController::Base
 
   def sign_out
     forget(current_user)
-    session.delete[:user_id]
+    session.delete(:user_id)
     @current_user = nil
   end
 
@@ -46,7 +47,7 @@ class ApplicationController < ActionController::Base
 
   def forget(user)
     user.forget
-    cookies.delete[:user_id]
-    cookies.delete[:remember_token]
+    cookies.delete(:user_id)
+    cookies.delete(:remember_token)
   end
 end

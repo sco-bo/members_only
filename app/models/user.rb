@@ -1,5 +1,6 @@
 class User < ActiveRecord::Base
   attr_accessor :token
+  has_many :posts
 
   before_create :remember
   before_save {self.email = email.downcase}
@@ -10,8 +11,6 @@ class User < ActiveRecord::Base
             uniqueness: {case_sensitive: false}
   has_secure_password
   validates :password, presence: true, length: {minimum: 6}
-
-  has_many :posts
 
   #Returns a random token
   def User.new_token
